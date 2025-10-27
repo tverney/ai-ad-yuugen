@@ -1,0 +1,196 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Run tests daily at 2 AM UTC
+    - cron: '0 2 * * *'
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        browser: [chromium, firefox, webkit]
+        node-version: [18, 20]
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: |
+        npm ci
+        cd e2e && npm ci
+    
+    - name: Build SDK
+      run: |
+        npm run build
+    
+    - name: Install Playwright Browsers
+      run: cd e2e && npx playwright install --with-deps ${{ matrix.browser }}
+    
+    - name: Start test servers
+      run: |
+        npm run dev:server &
+        cd e2e && npm run dev:test-app &
+        sleep 10
+    
+    - name: Run E2E tests
+      run: cd e2e && npx playwright test --project=${{ matrix.browser }}
+      env:
+        CI: true
+    
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-report-${{ matrix.browser }}-node${{ matrix.node-version }}
+        path: e2e/playwright-report/
+        retention-days: 30
+    
+    - name: Upload test videos
+      uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: playwright-videos-${{ matrix.browser }}-node${{ matrix.node-version }}
+        path: e2e/test-results/
+        retention-days: 7
+
+  mobile-test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: |
+        npm ci
+        cd e2e && npm ci
+    
+    - name: Build SDK
+      run: npm run build
+    
+    - name: Install Playwright Browsers
+      run: cd e2e && npx playwright install --with-deps chromium
+    
+    - name: Start test servers
+      run: |
+        npm run dev:server &
+        cd e2e && npm run dev:test-app &
+        sleep 10
+    
+    - name: Run Mobile E2E tests
+      run: cd e2e && npx playwright test --project="Mobile Chrome" --project="Mobile Safari"
+      env:
+        CI: true
+    
+    - name: Upload mobile test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-report-mobile
+        path: e2e/playwright-report/
+        retention-days: 30
+
+  performance-test:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: |
+        npm ci
+        cd e2e && npm ci
+    
+    - name: Build SDK
+      run: npm run build
+    
+    - name: Install Playwright Browsers
+      run: cd e2e && npx playwright install --with-deps chromium
+    
+    - name: Start test servers
+      run: |
+        npm run dev:server &
+        cd e2e && npm run dev:test-app &
+        sleep 10
+    
+    - name: Run Performance tests
+      run: cd e2e && npx playwright test comprehensive-integration.spec.ts --grep "performance"
+      env:
+        CI: true
+    
+    - name: Upload performance results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: performance-test-results
+        path: e2e/playwright-report/
+        retention-days: 30
+
+  accessibility-test:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: |
+        npm ci
+        cd e2e && npm ci
+    
+    - name: Build SDK
+      run: npm run build
+    
+    - name: Install Playwright Browsers
+      run: cd e2e && npx playwright install --with-deps chromium
+    
+    - name: Start test servers
+      run: |
+        npm run dev:server &
+        cd e2e && npm run dev:test-app &
+        sleep 10
+    
+    - name: Run Accessibility tests
+      run: cd e2e && npx playwright test comprehensive-integration.spec.ts --grep "accessibility"
+      env:
+        CI: true
+    
+    - name: Upload accessibility results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: accessibility-test-results
+        path: e2e/playwright-report/
+        retention-days: 30

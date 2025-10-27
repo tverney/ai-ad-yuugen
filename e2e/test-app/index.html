@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Ad Yuugen SDK E2E Test App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .chat-container {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            min-height: 400px;
+            background: #fafafa;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 6px;
+        }
+        .user-message {
+            background: #007bff;
+            color: white;
+            margin-left: 20%;
+        }
+        .ai-message {
+            background: #e9ecef;
+            color: #333;
+            margin-right: 20%;
+        }
+        .ad-container {
+            margin: 20px 0;
+            padding: 10px;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+        }
+        .controls {
+            margin: 20px 0;
+            padding: 20px;
+            background: #e9ecef;
+            border-radius: 8px;
+        }
+        .controls button {
+            margin: 5px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        .controls button:hover {
+            background: #0056b3;
+        }
+        .privacy-controls {
+            margin: 20px 0;
+            padding: 20px;
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+        }
+        .privacy-controls h3 {
+            margin-top: 0;
+            color: #856404;
+        }
+        .consent-checkbox {
+            margin: 10px 0;
+        }
+        .metrics {
+            margin: 20px 0;
+            padding: 20px;
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 8px;
+        }
+        .framework-tabs {
+            display: flex;
+            margin: 20px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .framework-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            border-bottom: 2px solid transparent;
+        }
+        .framework-tab.active {
+            border-bottom-color: #007bff;
+            color: #007bff;
+        }
+        .framework-content {
+            display: none;
+            padding: 20px;
+        }
+        .framework-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Ad Yuugen SDK E2E Test Application</h1>
+        
+        <!-- Privacy Controls -->
+        <div class="privacy-controls" data-testid="privacy-controls">
+            <h3>Privacy & Consent Management</h3>
+            <div class="consent-checkbox">
+                <label>
+                    <input type="checkbox" id="advertising-consent" data-testid="advertising-consent" checked>
+                    Allow advertising cookies and personalization
+                </label>
+            </div>
+            <div class="consent-checkbox">
+                <label>
+                    <input type="checkbox" id="analytics-consent" data-testid="analytics-consent" checked>
+                    Allow analytics and performance tracking
+                </label>
+            </div>
+            <div class="consent-checkbox">
+                <label>
+                    <input type="checkbox" id="data-sharing-consent" data-testid="data-sharing-consent">
+                    Allow data sharing with third parties
+                </label>
+            </div>
+            <button id="update-consent" data-testid="update-consent">Update Consent</button>
+            <button id="opt-out-all" data-testid="opt-out-all">Opt Out of All</button>
+        </div>
+
+        <!-- Framework Selection -->
+        <div class="framework-tabs">
+            <button class="framework-tab active" data-framework="vanilla" data-testid="vanilla-tab">Vanilla JS</button>
+            <button class="framework-tab" data-framework="react" data-testid="react-tab">React</button>
+            <button class="framework-tab" data-framework="vue" data-testid="vue-tab">Vue</button>
+            <button class="framework-tab" data-framework="angular" data-testid="angular-tab">Angular</button>
+        </div>
+
+        <!-- Vanilla JS Implementation -->
+        <div class="framework-content active" data-framework="vanilla">
+            <h2>Vanilla JavaScript Implementation</h2>
+            <div class="chat-container" data-testid="vanilla-chat">
+                <div class="message ai-message">Hello! I'm your AI assistant. How can I help you today?</div>
+            </div>
+            
+            <div class="ad-container" data-testid="vanilla-banner-ad" data-ad-type="banner">
+                <!-- Banner ad will be inserted here -->
+            </div>
+            
+            <div class="controls">
+                <button id="vanilla-send-message" data-testid="vanilla-send-message">Send Test Message</button>
+                <button id="vanilla-request-ad" data-testid="vanilla-request-ad">Request Ad</button>
+                <button id="vanilla-show-interstitial" data-testid="vanilla-show-interstitial">Show Interstitial</button>
+            </div>
+            
+            <div class="ad-container" data-testid="vanilla-native-ad" data-ad-type="native">
+                <!-- Native ad will be inserted here -->
+            </div>
+        </div>
+
+        <!-- React Implementation -->
+        <div class="framework-content" data-framework="react">
+            <h2>React Implementation</h2>
+            <div id="react-app" data-testid="react-app">
+                <!-- React app will be mounted here -->
+            </div>
+        </div>
+
+        <!-- Vue Implementation -->
+        <div class="framework-content" data-framework="vue">
+            <h2>Vue Implementation</h2>
+            <div id="vue-app" data-testid="vue-app">
+                <!-- Vue app will be mounted here -->
+            </div>
+        </div>
+
+        <!-- Angular Implementation -->
+        <div class="framework-content" data-framework="angular">
+            <h2>Angular Implementation</h2>
+            <div id="angular-app" data-testid="angular-app">
+                <!-- Angular app will be bootstrapped here -->
+            </div>
+        </div>
+
+        <!-- Performance Metrics -->
+        <div class="metrics" data-testid="metrics">
+            <h3>Performance Metrics</h3>
+            <div id="metrics-content">
+                <p>SDK Load Time: <span id="sdk-load-time" data-testid="sdk-load-time">-</span>ms</p>
+                <p>Ad Request Time: <span id="ad-request-time" data-testid="ad-request-time">-</span>ms</p>
+                <p>Total Impressions: <span id="total-impressions" data-testid="total-impressions">0</span></p>
+                <p>Total Clicks: <span id="total-clicks" data-testid="total-clicks">0</span></p>
+                <p>CTR: <span id="ctr" data-testid="ctr">0%</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interstitial Ad Container -->
+    <div id="interstitial-container" data-testid="interstitial-container" style="display: none;">
+        <!-- Interstitial ads will be shown here -->
+    </div>
+
+    <!-- Scripts will be loaded dynamically based on framework selection -->
+    <script src="./app.js"></script>
+</body>
+</html>

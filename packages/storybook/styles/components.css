@@ -1,0 +1,324 @@
+/* Component-specific styles for Storybook stories */
+
+/* Ad Components */
+.story-ad-banner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+  max-width: 400px;
+}
+
+.story-ad-banner:hover {
+  transform: translateY(-2px);
+}
+
+.story-ad-banner-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.story-ad-banner-content {
+  flex: 1;
+}
+
+.story-ad-banner-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.story-ad-banner-description {
+  font-size: 14px;
+  opacity: 0.9;
+  margin-bottom: 0.75rem;
+}
+
+.story-ad-banner-cta {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.story-ad-native {
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  background: white;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+  max-width: 350px;
+}
+
+.story-ad-native:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.story-ad-native-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1f2937;
+}
+
+.story-ad-native-description {
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 0.75rem;
+}
+
+.story-ad-native-cta {
+  background: #3b82f6;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+}
+
+.story-ad-interstitial-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.story-ad-interstitial-content {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+}
+
+.story-ad-interstitial-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #6b7280;
+}
+
+.story-ad-interstitial-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.story-ad-interstitial-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #1f2937;
+}
+
+.story-ad-interstitial-description {
+  color: #6b7280;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.story-ad-interstitial-cta {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* Dashboard Components */
+.story-metric-card {
+  background: white;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.story-metric-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.story-metric-card-content {
+  flex: 1;
+}
+
+.story-metric-card-label {
+  font-size: 0.875rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.story-metric-card-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.story-metric-card-change {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.story-metric-card-change.positive {
+  color: #10b981;
+}
+
+.story-metric-card-change.negative {
+  color: #ef4444;
+}
+
+.story-metric-card-icon {
+  font-size: 2rem;
+  opacity: 0.6;
+}
+
+.story-realtime-metrics {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.story-realtime-metrics-title {
+  margin: 0 0 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.story-realtime-metrics-indicator {
+  width: 8px;
+  height: 8px;
+  background: #34d399;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.story-realtime-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.story-realtime-metrics-item {
+  text-align: center;
+}
+
+.story-realtime-metrics-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.story-realtime-metrics-label {
+  font-size: 0.875rem;
+  opacity: 0.9;
+}
+
+.story-chart-container {
+  background: white;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.story-chart-title {
+  margin: 0 0 1rem 0;
+  color: #1f2937;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+/* Layout helpers */
+.story-container {
+  padding: 2rem;
+  background: #f9fafb;
+}
+
+.story-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.story-grid-cols-1 {
+  grid-template-columns: 1fr;
+}
+
+.story-grid-cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.story-grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.story-grid-cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.story-grid-auto-fit {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .story-grid-cols-2,
+  .story-grid-cols-3,
+  .story-grid-cols-4 {
+    grid-template-columns: 1fr;
+  }
+  
+  .story-ad-banner {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .story-container {
+    padding: 1rem;
+  }
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

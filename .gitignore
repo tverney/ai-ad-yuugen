@@ -1,0 +1,143 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+.yarn/
+.npm/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build outputs
+dist/
+build/
+out/
+*.tsbuildinfo
+*.js.map
+*.d.ts.map
+
+poc
+
+# Nx
+.nx
+.nx/cache
+.nx/workspace-data
+.nx/installation
+
+# Graph outputs
+graph.html
+static/
+
+# Testing
+coverage/
+.nyc_output
+test-results/
+junit.xml
+*.spec.js
+*.spec.d.ts
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env.*.local
+*.env
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# IDE - JetBrains
+.idea/
+*.iml
+*.iws
+*.ipr
+.idea_modules/
+
+# IDE - Other
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+.loadpath
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+pnpm-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.bak
+*.swp
+.cache/
+
+# Storybook
+storybook-static/
+.storybook-out/
+
+# Vite
+.vite/
+vite.config.*.timestamp-*
+
+# TypeScript
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# Rollup
+.rollup.cache/
+
+# ESLint
+.eslintcache
+
+# Prettier
+.prettiercache
+
+# Turbo
+.turbo/
+
+# Vercel
+.vercel/
+
+# Next.js (if used)
+.next/
+next-env.d.ts
+
+# Misc
+*.orig
+.history/
+.vscode-test/
+
+
+.kiro
+.vscode

@@ -1,0 +1,247 @@
+/* AdInterstitial Component Styles - Radix UI Dialog Compatible */
+
+/* Radix Dialog Overlay */
+.adInterstitialOverlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Radix Dialog Content */
+.adInterstitialContent {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 
+    hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
+    hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  max-width: 600px;
+  max-height: 85vh;
+  z-index: 9999;
+  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.adInterstitialContent:focus {
+  outline: none;
+}
+
+/* Close button */
+.adInterstitialClose {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  transition: background-color 0.2s ease;
+}
+
+.adInterstitialClose:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.adInterstitialClose:focus-visible {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* Ad content area */
+.adInterstitialBody {
+  position: relative;
+  cursor: pointer;
+}
+
+.adInterstitialImage {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.adInterstitialTextContent {
+  padding: 40px;
+  text-align: center;
+}
+
+.adInterstitialTitle {
+  margin: 0 0 16px 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.adInterstitialDescription {
+  margin: 0 0 24px 0;
+  font-size: 16px;
+  line-height: 1.5;
+  opacity: 0.8;
+  color: #333;
+}
+
+.adInterstitialCta {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 24px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.adInterstitialCta:hover {
+  background-color: #0056b3;
+}
+
+.adInterstitialCta:focus-visible {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+.adInterstitialBrand {
+  margin-top: 16px;
+  font-size: 14px;
+  opacity: 0.6;
+  color: #333;
+}
+
+/* Ad label */
+.adInterstitialLabel {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  pointer-events: none;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Loading state */
+.adInterstitialLoading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px;
+  gap: 16px;
+  color: #666;
+  font-size: 16px;
+}
+
+.adInterstitialSpinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e0e0e0;
+  border-top: 3px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Fallback state */
+.adInterstitialFallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px;
+  gap: 12px;
+  color: #999;
+  font-size: 16px;
+  background-color: #f8f9fa;
+}
+
+.adInterstitialFallbackIcon {
+  font-size: 48px;
+  opacity: 0.5;
+}
+
+/* Animations */
+@keyframes overlayShow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes contentShow {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .adInterstitialContent {
+    width: 95vw;
+    max-width: none;
+  }
+  
+  .adInterstitialTextContent {
+    padding: 24px;
+  }
+  
+  .adInterstitialTitle {
+    font-size: 20px;
+  }
+  
+  .adInterstitialDescription {
+    font-size: 14px;
+  }
+  
+  .adInterstitialCta {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .adInterstitialContent {
+    width: 98vw;
+  }
+  
+  .adInterstitialTextContent {
+    padding: 20px;
+  }
+  
+  .adInterstitialClose {
+    top: 8px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+  }
+}
