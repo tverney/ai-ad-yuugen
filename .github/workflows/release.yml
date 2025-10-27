@@ -1,0 +1,205 @@
+name: Release Pipeline
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., 1.0.0)'
+        required: true
+        type: string
+
+jobs:
+  validate:
+    name: Validate Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run all tests
+        run: |
+          npm run lint
+          npm run test
+          npm run build
+      
+      - name: Validate package versions
+        run: |
+          echo "Validating package versions..."
+          node -e "
+            const fs = require('fs');
+            const packages = [
+              'packages/types',
+              'packages/sdk',
+              'packages/server',
+              'packages/ui-components',
+              'packages/developer-portal',
+              'packages/adcp-client'
+            ];
+            packages.forEach(pkg => {
+              const pkgJson = JSON.parse(fs.readFileSync(\`\${pkg}/package.json\`, 'utf8'));
+              console.log(\`\${pkg}: v\${pkgJson.version}\`);
+            });
+          "
+
+  build-and-publish:
+    name: Build and Publish to npm
+    runs-on: ubuntu-latest
+    needs: [validate]
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build all packages
+        run: npm run build
+      
+      - name: Publish to npm
+        run: |
+          # Publish packages in dependency order
+          cd packages/types && npm publish --access public
+          cd ../sdk && npm publish --access public
+          cd ../server && npm publish --access public
+          cd ../ui-components && npm publish --access public
+          cd ../developer-portal && npm publish --access public
+          cd ../adcp-client && npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            ## What's Changed
+            
+            See [CHANGELOG.md](CHANGELOG.md) for details.
+            
+            ## Installation
+            
+            ```bash
+            npm install @ai-yuugen/sdk@latest
+            ```
+            
+            ## Documentation
+            
+            - [Quick Start Guide](https://docs.ai-yuugen.com/quick-start)
+            - [API Reference](https://docs.ai-yuugen.com/api)
+            - [Migration Guide](https://docs.ai-yuugen.com/migration)
+          draft: false
+          prerelease: false
+
+  publish-docker:
+    name: Publish Docker Images
+    runs-on: ubuntu-latest
+    needs: [validate]
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      
+      - name: Extract version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Build and push server image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./docker/Dockerfile.server
+          push: true
+          tags: |
+            aiyuugen/server:latest
+            aiyuugen/server:${{ steps.version.outputs.version }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      
+      - name: Build and push developer portal image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./docker/Dockerfile.portal
+          push: true
+          tags: |
+            aiyuugen/developer-portal:latest
+            aiyuugen/developer-portal:${{ steps.version.outputs.version }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy-docs:
+    name: Deploy Documentation
+    runs-on: ubuntu-latest
+    needs: [build-and-publish]
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build documentation
+        run: npm run build:docs
+      
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          cname: docs.ai-yuugen.com
+
+  notify:
+    name: Notify Release
+    runs-on: ubuntu-latest
+    needs: [build-and-publish, publish-docker, deploy-docs]
+    if: always()
+    steps:
+      - name: Send Slack notification
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          text: |
+            Release ${{ github.ref }} completed!
+            Status: ${{ job.status }}
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+        if: always()

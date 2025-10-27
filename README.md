@@ -201,3 +201,45 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - 💬 Discord: [Join our community](https://discord.gg/ai-yuugen)
 - 📖 Documentation: [docs.ai-yuugen.com](https://docs.ai-yuugen.com)
 - 🐛 Issues: [GitHub Issues](https://github.com/ai-yuugen/platform/issues)
+
+## Deployment
+
+### Quick Start
+
+```bash
+# Prepare release
+./scripts/prepare-release.sh
+
+# Run integration tests
+./scripts/integration-test.sh
+
+# Deploy with Docker
+npm run docker:build
+npm run docker:up
+
+# Validate deployment
+./scripts/validate-deployment.sh
+```
+
+### Production Deployment
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for comprehensive deployment guide including:
+- Docker containerization
+- Cloud deployment (AWS, GCP, Azure)
+- CI/CD pipeline setup
+- Monitoring and alerting
+- Security best practices
+
+### CI/CD
+
+The project includes automated CI/CD pipelines:
+- **Continuous Integration**: Runs on every push and PR
+- **Release Pipeline**: Automated releases on version tags
+- **Security Scanning**: Automated vulnerability checks
+- **E2E Testing**: Cross-browser testing with Playwright
+
+See [.github/README.md](.github/README.md) for CI/CD documentation.
+
+## License
+
+MIT License - see [LICENSE](LICENSE) for details
