@@ -1,4 +1,4 @@
-# AI Ad Yuugen Platform
+# Ad Yuugen - All-in-one Ads Platform for AI Interfaces
 
 An open-source Ad Yuugen mechanism designed specifically for AI interfaces. This platform provides developers with a comprehensive SDK and infrastructure to integrate targeted advertising into their AI applications.
 
